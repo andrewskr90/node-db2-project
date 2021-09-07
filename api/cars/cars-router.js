@@ -1,11 +1,6 @@
 const express = require('express')
 const Car = require('./cars-model')
-const {
-    checkCarId,
-    checkCarPayload,
-    checkVinNumberValid,
-    checkVinNumberUnique
-  } = require('./cars-middleware')
+const md = require('./cars-middleware')
 
 const router = express.Router()
 
@@ -18,7 +13,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.get('/:id', checkCarId, (err, req, res, next) => {
+router.get('/:id', md.checkCarId, (err, req, res, next) => {
     if (req.car) {
         res.status(200).json(req.car)
     } else {
@@ -26,7 +21,7 @@ router.get('/:id', checkCarId, (err, req, res, next) => {
     }
 })
 
-router.post('/', checkCarPayload, (req, res, next) => {
+router.post('/', md.checkCarPayload, (req, res, next) => {
     try {
         throw new Error()
     } catch (err) {

@@ -1,7 +1,7 @@
 const db = require('../../data/db-config')
 
-const getAll = async () => {
-  await db('cars')
+const getAll = () => {
+  return db('cars')
 }
 
 const getById = async (id) => {
