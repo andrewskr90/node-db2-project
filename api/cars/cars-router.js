@@ -7,13 +7,14 @@ const router = express.Router()
 router.get('/', async (req, res, next) => {
     try {
         const allCars = await Car.getAll()
+        console.log(allCars)
         res.status(200).json(allCars)
     } catch (err) {
         next(err)
     }
 })
 
-router.get('/:id', md.checkCarId, (err, req, res, next) => {
+router.get('/:id', md.checkCarId, (req, res, next) => {
     if (req.car) {
         res.status(200).json(req.car)
     } else {
@@ -21,9 +22,10 @@ router.get('/:id', md.checkCarId, (err, req, res, next) => {
     }
 })
 
-router.post('/', md.checkCarPayload, (req, res, next) => {
+router.post('/', md.checkCarPayload, md.checkVinNumberValid, md.checkVinNumberUnique, async (req, res, next) => {
     try {
-        throw new Error()
+        let newCar = await Car.create(req.body)
+        res.status(201).json(newCar)
     } catch (err) {
         next(err)
     }
